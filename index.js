@@ -330,7 +330,7 @@ async function connectionUpdate(update) {
       try {
         const data = JSON.parse(fs.readFileSync(restarterFile, "utf-8"))
         if (data.chatId) {
-          await conn.sendMessage(data.chatId, { text: "✅ *${global.author} está en línea nuevamente* 🚀" })
+          await conn.sendMessage(data.chatId, { text: "*${global.author} 𝖤𝗌𝗍𝖺 𝖠𝖼𝗍𝗂𝗏𝗈 𝖭𝗎𝖾𝗏𝖺𝗆𝖾𝗇𝗍𝖾* ✅" })
           console.log(chalk.yellow("📢 Aviso enviado al grupo del reinicio."))
           fs.unlinkSync(restarterFile)
         }
