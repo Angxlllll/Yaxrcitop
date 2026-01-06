@@ -1,0 +1,19 @@
+let handler = async (m,{conn,text,command})=>{
+let id=text?text:m.chat
+let mensaje=`*𝖬𝗂 𝖩𝖾𝖿𝖾 𝖠𝗁 𝖣𝖾𝖼𝗂𝖽𝗂𝖽𝗈 𝖲𝖺𝖼𝖺𝗋𝗆𝖾 𝖣𝖾 𝖤𝗌𝗍𝖾 𝖦𝗋𝗎𝗉𝗈*, *${global.author} 𝖲𝖾 𝖣𝖾𝗌𝗉𝗂𝖽𝖾*`
+
+await conn.sendMessage(
+m.chat,
+{ text:mensaje,mentions:[m.sender],...global.rcanal },
+{ quoted:m }
+)
+
+await conn.groupLeave(id)
+}
+
+handler.help=['𝖲𝖺𝗅𝗂𝗋']
+handler.tags=['𝖮𝖶𝖭𝖤𝖱']
+handler.command=/^(salir)$/i
+handler.group=true
+handler.owner=true
+export default handler
