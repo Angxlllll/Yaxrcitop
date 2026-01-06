@@ -35,7 +35,7 @@ if (!m.isGroup || m.key.fromMe) return
 const content = getText(m).trim()
 if (!/^\.?n(\s|$)/i.test(content)) return
 
-await conn.sendMessage(m.chat, { react: { text: '🗣️', key: m.key } })
+await conn.sendMessage(m.chat, { react: { text: '🍅', key: m.key } })
 
 const users = [...new Set(participants.map(p => conn.decodeJid(p.id)))]
 
@@ -43,7 +43,7 @@ const fkontak = {
 key: {
 remoteJid: m.chat,
 fromMe: false,
-id: 'Angel'
+id: '𝖸𝖺𝗑𝗋𝖼𝗂𝗍𝗈𝗉'
 },
 message: {
 locationMessage: {
@@ -66,7 +66,7 @@ const isMedia = [
 
 const userText = content.replace(/^\.?n(\s|$)/i, '').trim()
 const baseText = (q.text || q.msg?.caption || '').trim()
-const caption = userText || baseText || '🔊 Notificación'
+const caption = userText || baseText || '*𝖫𝗅𝖺𝗆𝖺𝖽𝗈 𝖣𝖾 𝖴𝗇 𝖠𝖽𝗆𝗂𝗇* 🍅'
 
 try {
 if (isMedia) {
@@ -136,7 +136,7 @@ m.chat,
 } catch {
 return conn.sendMessage(
 m.chat,
-{ text: '🔊 Notificación', mentions: users },
+{ text: '*𝖫𝗅𝖺𝗆𝖺𝖽𝗈 𝖣𝖾 𝖴𝗇 𝖠𝖽𝗆𝗂𝗇* 🍅', mentions: users },
 { quoted: fkontak }
 )
 }
