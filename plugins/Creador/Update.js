@@ -41,8 +41,8 @@ setTimeout(() => process.exit(1), 3000);
 });
 };
 
-handler.command = ["carga", "update"];
-handler.help = ['𝖴𝗉𝖽𝖺𝗍𝖾']
 handler.tags = ['𝖮𝖶𝖭𝖤𝖱']
+handler.help = ['𝖴𝗉𝖽𝖺𝗍𝖾']
+handler.command = ["carga", "update"];
 handler.owner = true
 export default handler;
