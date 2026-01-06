@@ -1,12 +1,6 @@
 import { generateWAMessageFromContent } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
 
-let thumb = null
-fetch('https://files.catbox.moe/mx6p6q.jpg')
-.then(r => r.arrayBuffer())
-.then(b => thumb = Buffer.from(b))
-.catch(() => null)
-
 function unwrapMessage(m = {}) {
 let n = m
 while (
@@ -54,7 +48,7 @@ id: 'Angel'
 message: {
 locationMessage: {
 name: `𝖧𝗈𝗅𝖺, 𝖲𝗈𝗒 ${global.author}`,
-jpegThumbnail: thumb
+jpegThumbnail: global.bannerBuffer
 }
 },
 participant: '0@s.whatsapp.net'
