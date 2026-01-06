@@ -9,7 +9,7 @@ react:{text:"🔄",key:msg.key}
 });
 
 await conn.sendMessage(chatId,{
-text:"*𝖱𝖾𝗂𝗇𝗂𝖼𝗂𝖺𝗇𝖽𝗈 𝖠 𝖤𝗌𝗉𝖾𝗋𝖾 𝖴𝗇 𝖬𝗈𝗆𝖾𝗇𝗍𝗈* 🔄"
+text:"*𝖱𝖾𝗂𝗇𝗂𝖼𝗂𝖺𝗇𝖽𝗈 𝖠 ${global.author} 𝖤𝗌𝗉𝖾𝗋𝖾 𝖴𝗇 𝖬𝗈𝗆𝖾𝗇𝗍𝗈* 🔄"
 },{quoted:msg});
 
 const restartPath = path.resolve("lastRestarter.json");
