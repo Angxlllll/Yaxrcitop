@@ -9,7 +9,7 @@ react:{text:"🔄",key:msg.key}
 });
 
 await conn.sendMessage(chatId,{
-text:"🔄 *Angel bot se reiniciará en unos segundos...*"
+text:"*𝖱𝖾𝗂𝗇𝗂𝖼𝗂𝖺𝗇𝖽𝗈 𝖠 𝖤𝗌𝗉𝖾𝗋𝖾 𝖴𝗇 𝖬𝗈𝗆𝖾𝗇𝗍𝗈* 🔄"
 },{quoted:msg});
 
 const restartPath = path.resolve("lastRestarter.json");
