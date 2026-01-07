@@ -19,42 +19,18 @@ function isOwnerBySender(sender) {
   return OWNER_NUMBERS.includes(DIGITS(sender))
 }
 
-global.beforeAll = async function (m, { conn }) {
-  try {
-    const nombreBot = global.namebot || "𝖠𝗇𝗀𝖾𝗅 𝖡𝗈𝗍"
-    const bannerFinal = "https://files.catbox.moe/izivd5.jpg"
+if (!global.bannerBuffer) {
+  const res = await fetch("https://files.catbox.moe/izivd5.jpg")
+  global.bannerBuffer = Buffer.from(await res.arrayBuffer())
+}
 
-    const canales = [global.idcanal, global.idcanal2].filter(Boolean)
-    const newsletterJidRandom = canales.length
-      ? canales[Math.floor(Math.random() * canales.length)]
-      : null
-
-    global.rcanal = {
-      contextInfo: {
-        isForwarded: true,
-        forwardingScore: 1,
-        ...(newsletterJidRandom && {
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: newsletterJidRandom,
-            serverMessageId: 100,
-            newsletterName: global.namecanal
-          }
-        }),
-        externalAdReply: {
-          title: nombreBot,
-          body: global.author,
-          thumbnailUrl: bannerFinal,
-          sourceUrl: null,
-          mediaType: 1,
-          renderLargerThumbnail: false
-        }
-      }
-    }
-  } catch (e) {
-    console.log("Error al generar rcanal:", e)
+global.beforeAll = async function () {
+  global.rcanal = {
+    title: global.namebot || "𝖠𝗇𝗀𝖾𝗅 𝖡𝗈𝗍",
+    body: global.author,
+    thumbnail: global.bannerBuffer
   }
 }
-        
 
 global.dfail = async (type, m, conn) => {
   const msg = {
@@ -71,19 +47,23 @@ global.dfail = async (type, m, conn) => {
 
   if (!msg) return
 
-  await conn.sendMessage(m.chat, {
-    text: msg,
-    contextInfo: {
-      externalAdReply: {
-        title: global.namebot || global.author,
-        body: global.author,
-        thumbnail: global.bannerBuffer,
-        mediaType: 1,
-        renderLargerThumbnail: true,
-        showAdAttribution: true
+  await conn.sendMessage(
+    m.chat,
+    {
+      text: msg,
+      contextInfo: {
+        externalAdReply: {
+          title: global.namebot || global.author,
+          body: global.author,
+          thumbnail: global.bannerBuffer,
+          mediaType: 1,
+          renderLargerThumbnail: true,
+          showAdAttribution: true
+        }
       }
-    }
-  }, { quoted: m })
+    },
+    { quoted: m }
+  )
 
   await m.react("✖️")
 }
