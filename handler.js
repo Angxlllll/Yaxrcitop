@@ -19,16 +19,39 @@ function isOwnerBySender(sender) {
   return OWNER_NUMBERS.includes(DIGITS(sender))
 }
 
-if (!global.bannerBuffer) {
-  const res = await fetch("https://files.catbox.moe/izivd5.jpg")
-  global.bannerBuffer = Buffer.from(await res.arrayBuffer())
-}
+global.beforeAll = async function (m, { conn }) {
+  try {
+    const nombreBot = global.namebot || "𝖠𝗇𝗀𝖾𝗅 𝖡𝗈𝗍"
+    const bannerFinal = "https://files.catbox.moe/izivd5.jpg"
 
-global.beforeAll = async function () {
-  global.rcanal = {
-    title: global.namebot || "𝖠𝗇𝗀𝖾𝗅 𝖡𝗈𝗍",
-    body: global.author,
-    thumbnail: global.bannerBuffer
+    const canales = [global.idcanal, global.idcanal2].filter(Boolean)
+    const newsletterJidRandom = canales.length
+      ? canales[Math.floor(Math.random() * canales.length)]
+      : null
+
+    global.rcanal = {
+      contextInfo: {
+        isForwarded: true,
+        forwardingScore: 1,
+        ...(newsletterJidRandom && {
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: newsletterJidRandom,
+            serverMessageId: 100,
+            newsletterName: global.namecanal
+          }
+        }),
+        externalAdReply: {
+          title: nombreBot,
+          body: global.author,
+          thumbnailUrl: bannerFinal,
+          sourceUrl: null,
+          mediaType: 1,
+          renderLargerThumbnail: false
+        }
+      }
+    }
+  } catch (e) {
+    console.log("Error al generar rcanal:", e)
   }
 }
 
