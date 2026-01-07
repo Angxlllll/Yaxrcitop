@@ -190,7 +190,7 @@ global.conn = makeWASocket({
   msgRetryCounterCache: msgRetryCounterCache || new Map(),
   userDevicesCache: userDevicesCache || new Map(),
   defaultQueryTimeoutMs: undefined,
-  cachedGroupMetadata: (jid) => globalThis.conn.chats[jid] ?? {},
+  cachedGroupMetadata: (jid) => globalThis?.conn?.chats?.[jid] ?? {},
   version,
   keepAliveIntervalMs: 55000,
   maxIdleTimeMs: 60000
