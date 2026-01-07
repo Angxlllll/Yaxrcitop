@@ -54,7 +54,6 @@ font: 'console',
 align: 'center',
 colors: ['cyan', 'magenta', 'yellow']
 })
-protoType()
 serialize()
 
 if (!existsSync("./tmp")) {
