@@ -70,8 +70,8 @@ global.dfail = (type, m, conn) => {
   }[type]
 
   if (msg)
-    conn.reply(m.chat, msg, m, global.rcanal || {})
-      .then(() => m.react("✖️"))
+  m.reply(msg, m.chat, global.rcanal || {})
+    .then(() => m.react("✖️"))
 }
 
 const fail = (type, m, conn) => global.dfail?.(type, m, conn)
