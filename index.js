@@ -167,7 +167,7 @@ console.info = () => { }
 console.debug = () => { }
 ['log', 'warn', 'error'].forEach(methodName => redefineConsoleMethod(methodName, filterStrings))
 
-const conn = makeWASocket({
+global.conn = makeWASocket({
   auth: {
     creds: state.creds,
     keys: makeCacheableSignalKeyStore(
@@ -196,7 +196,6 @@ const conn = makeWASocket({
   maxIdleTimeMs: 60000
 })
 
-global.conn = makeWASocket(connectionOptions)
 if (!fs.existsSync(`./${sessions}/creds.json`)) {
 if (opcion === '2' || methodCode) {
 opcion = '2'
