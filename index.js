@@ -167,34 +167,34 @@ console.info = () => { }
 console.debug = () => { }
 ['log', 'warn', 'error'].forEach(methodName => redefineConsoleMethod(methodName, filterStrings))
 
-const connectionOptions = {
-logger: pino({ level: 'silent' }),
-printQRInTerminal: opcion == '1' ? true : methodCodeQR ? true : false,
-mobile: MethodMobile, 
-browser: opcion == '1' ? Browsers.macOS("Desktop") : methodCodeQR ? Browsers.macOS("Desktop") : Browsers.macOS("Chrome"), 
-auth: {
-creds: state.creds,
-keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
-},
-markOnlineOnConnect: false, 
-generateHighQualityLinkPreview: true, 
-syncFullHistory: false,
-getMessage: async (key) => {
-try {
-let jid = jidNormalizedUser(key.remoteJid);
-let msg = await store.loadMessage(jid, key.id)
-return msg?.message || ""
-} catch (error) {
-return ""
-}},
-msgRetryCounterCache: msgRetryCounterCache || new Map(),
-userDevicesCache: userDevicesCache || new Map(),
-defaultQueryTimeoutMs: undefined,
-cachedGroupMetadata: (jid) => globalThis.conn.chats[jid] ?? {},
-version: version, 
-keepAliveIntervalMs: 55000, 
-maxIdleTimeMs: 60000, 
-}
+const conn = makeWASocket({
+  auth: {
+    creds: state.creds,
+    keys: makeCacheableSignalKeyStore(
+      state.keys,
+      pino({ level: "fatal" }).child({ level: "fatal" })
+    )
+  },
+  markOnlineOnConnect: false,
+  generateHighQualityLinkPreview: true,
+  syncFullHistory: false,
+  getMessage: async (key) => {
+    try {
+      let jid = jidNormalizedUser(key.remoteJid);
+      let msg = await store.loadMessage(jid, key.id)
+      return msg?.message || ""
+    } catch (e) {
+      return ""
+    }
+  },
+  msgRetryCounterCache: msgRetryCounterCache || new Map(),
+  userDevicesCache: userDevicesCache || new Map(),
+  defaultQueryTimeoutMs: undefined,
+  cachedGroupMetadata: (jid) => globalThis.conn.chats[jid] ?? {},
+  version,
+  keepAliveIntervalMs: 55000,
+  maxIdleTimeMs: 60000
+})
 
 global.conn = makeWASocket(connectionOptions)
 if (!fs.existsSync(`./${sessions}/creds.json`)) {
