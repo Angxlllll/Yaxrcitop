@@ -26,19 +26,19 @@ global.beforeAll = async function (m, { conn }) {
 
     if (!Buffer.isBuffer(bannerFinal)) return
 
-    global.rcanal = {
-      contextInfo: {
-        externalAdReply: {
-          title: nombreBot,
-          body: global.author,
-          thumbnail: bannerFinal,
-          mediaType: 1,
-          renderLargerThumbnail: true,
-          showAdAttribution: true,
-          sourceUrl: ''
-        }
-      }
+    await conn.sendMessage(m.chat, {
+  text: msg,
+  contextInfo: {
+    externalAdReply: {
+      title: nombreBot,
+      body: global.author,
+      thumbnail: global.bannerBuffer,
+      mediaType: 1,
+      renderLargerThumbnail: true,
+      showAdAttribution: true
     }
+  }
+}, { quoted: m })
   } catch (e) {
     console.log('Error al generar rcanal:', e)
   }
