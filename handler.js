@@ -20,39 +20,28 @@ function isOwnerBySender(sender) {
 }
 
 global.beforeAll = async function (m, { conn }) {
-try {
-const nombreBot = global.namebot || '${global.author}'
-const bannerFinal = global.bannerBuffer
+  try {
+    const nombreBot = global.namebot || global.author
+    const bannerFinal = global.bannerBuffer
 
-const canales = [global.idcanal, global.idcanal2].filter(Boolean)
-const newsletterJidRandom = canales.length
-? canales[Math.floor(Math.random() * canales.length)]
-: null
+    if (!Buffer.isBuffer(bannerFinal)) return
 
-global.rcanal = {
-contextInfo: {
-isForwarded: true,
-forwardingScore: 1,
-...(newsletterJidRandom && {
-forwardedNewsletterMessageInfo: {
-newsletterJid: newsletterJidRandom,
-serverMessageId: 100,
-newsletterName: global.namecanal
-}
-}),
-externalAdReply: {
-title: nombreBot,
-body: global.author,
-thumbnail: bannerFinal,
-sourceUrl: null,
-mediaType: 1,
-renderLargerThumbnail: false
-}
-}
-}
-} catch (e) {
-console.log('Error al generar rcanal:', e)
-}
+    global.rcanal = {
+      contextInfo: {
+        externalAdReply: {
+          title: nombreBot,
+          body: global.author,
+          thumbnail: bannerFinal,
+          mediaType: 1,
+          renderLargerThumbnail: true,
+          showAdAttribution: true,
+          sourceUrl: ''
+        }
+      }
+    }
+  } catch (e) {
+    console.log('Error al generar rcanal:', e)
+  }
 }
         
 
