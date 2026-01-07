@@ -54,7 +54,6 @@ font: 'console',
 align: 'center',
 colors: ['cyan', 'magenta', 'yellow']
 })
-serialize()
 
 if (!existsSync("./tmp")) {
   mkdirSync("./tmp");
