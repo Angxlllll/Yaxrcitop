@@ -56,22 +56,36 @@ global.beforeAll = async function (m, { conn }) {
 }
         
 
-global.dfail = (type, m, conn) => {
+global.dfail = async (type, m, conn) => {
   const msg = {
-    rowner: "*𝖤𝗌𝗍𝖾 𝖢𝗈𝗆𝖺𝗇𝖽𝗈 𝖲𝗈𝗅𝗈 𝖯𝗎𝖾𝖽𝖾 𝖲𝖾𝗋 𝖴𝗌𝖺𝖽𝗈 𝖯𝗈𝗋 𝖬𝗂 𝖢𝗋𝖾𝖺𝖽𝗈𝗋*",
-    owner: "*𝖤𝗌𝗍𝖾 𝖢𝗈𝗆𝖺𝗇𝖽𝗈 𝖲𝗈𝗅𝗈 𝖯𝗎𝖾𝖽𝖾 𝖲𝖾𝗋 𝖴𝗍𝗂𝗅𝗂𝗓𝖺𝖽𝗈 𝖯𝗈𝗋 𝖬𝗂 𝖢𝗋𝖾𝖺𝖽𝗈𝗋*",
-    mods: "*𝖤𝗌𝗍𝖾 𝖢𝗈𝗆𝖺𝗇𝖽𝗈 𝖲𝗈𝗅𝗈 𝖯𝗎𝖾𝖽𝖾 𝖲𝖾𝗋 𝖴𝗌𝖺𝖽𝗈 𝖯𝗈𝗋 𝖽𝖾𝗌𝖺𝗋𝗋𝗈𝗅𝗅𝖺𝖽𝗈𝗋𝖾𝗌*",
-    premium: "*𝖤𝗌𝗍𝖾 𝖢𝗈𝗆𝖺𝗇𝖽𝗈 𝖲𝗈𝗅𝗈 𝖫𝗈 𝖯𝗎𝖾𝖽𝖾𝗇 𝖴𝗍𝗂𝗅𝗂𝗓𝖺𝗋 𝖴𝗌𝗎𝖺𝗋𝗂𝗈𝗌 𝖯𝗋𝖾𝗆𝗂𝗎𝗆*",
-    group: "*𝖤𝗌𝗍𝖾 𝖢𝗈𝗆𝖺𝗇𝖽𝗈 𝖲𝗈𝗅𝗈 𝖥𝗎𝗇𝖼𝗂𝗈𝗇𝖺 𝖤𝗇 𝖦𝗋𝗎𝗉𝗈𝗌*",
-    private: "*𝖤𝗌𝗍𝖾 𝖢𝗈𝗆𝖺𝗇𝖽𝗈 𝖲𝗈𝗅𝗈 𝖲𝖾 𝖯𝗎𝖾𝖽𝖾 𝖮𝖼𝗎𝗉𝖺𝗋 𝖤𝗇 𝖤𝗅 𝖯𝗋𝗂𝗏𝖺𝖽𝗈*",
-    admin: "*𝖤𝗌𝗍𝖾 𝖢𝗈𝗆𝖺𝗇𝖽𝗈 𝖲𝗈𝗅𝗈 𝖯𝗎𝖾𝖽𝖾 𝖲𝖾𝗋 𝖴𝗌𝖺𝖽𝗈 𝖯𝗈𝗋 𝖠𝖽𝗆𝗂𝗇𝗂𝗌𝗍𝗋𝖺𝖽𝗈𝗋𝖾𝗌*",
-    botAdmin: "*𝖭𝖾𝖼𝖾𝗌𝗂𝗍𝗈 𝗌𝖾𝗋 𝖠𝖽𝗆𝗂𝗇 𝖯𝖺𝗋𝖺 𝖴𝗌𝖺𝗋 𝖤𝗌𝗍𝖾 𝖢𝗈𝗆𝖺𝗇𝖽𝗈*",
-    restrict: "*𝖤𝗌𝗍𝖾 𝖢𝗈𝗆𝖺𝗇𝖽𝗈 𝖧𝖺 𝖲𝗂𝖽𝗈 𝖣𝖾𝗌𝖺𝖻𝗂𝗅𝗂𝗍𝖺𝖽𝗈*"
+    rowner: "*Este comando solo puede ser usado por mi creador*",
+    owner: "*Este comando solo puede ser usado por mi creador*",
+    mods: "*Este comando solo puede ser usado por desarrolladores*",
+    premium: "*Este comando solo puede ser usado por usuarios premium*",
+    group: "*Este comando solo funciona en grupos*",
+    private: "*Este comando solo se puede usar en privado*",
+    admin: "*Este comando solo puede ser usado por administradores*",
+    botAdmin: "*Necesito ser admin para usar este comando*",
+    restrict: "*Este comando ha sido deshabilitado*"
   }[type]
 
-  if (msg)
-  m.reply(msg, m.chat, global.rcanal || {})
-    .then(() => m.react("✖️"))
+  if (!msg) return
+
+  await conn.sendMessage(m.chat, {
+    text: msg,
+    contextInfo: {
+      externalAdReply: {
+        title: global.namebot || global.author,
+        body: global.author,
+        thumbnail: global.bannerBuffer,
+        mediaType: 1,
+        renderLargerThumbnail: true,
+        showAdAttribution: true
+      }
+    }
+  }, { quoted: m })
+
+  await m.react("✖️")
 }
 
 const fail = (type, m, conn) => global.dfail?.(type, m, conn)
